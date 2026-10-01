@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+
+  "appName": "My App",
+
+  "welcome": "Welcome",
+  "hello": "Hello",
+
+  "settings": "Settings",
+  "language": "Language",
+  "theme": "Theme",
+
+  "english": "English",
+  "arabic": "Arabic",
+
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System"
+}

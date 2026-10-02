@@ -12,6 +12,7 @@ class LoginHomePage extends StatefulWidget {
 
 class _LoginHomePageState extends State<LoginHomePage> {
   bool _isEnabled = true;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,14 @@ class _LoginHomePageState extends State<LoginHomePage> {
               CommonButton(
                 text: 'Login / Submit',
                 isEnabled: _isEnabled,
-                width: 300,
+                isLoading: _isLoading,
+                // width: 300,
                 icon: const Icon(Icons.login, color: Colors.white, size: 20),
                 onPressed: () async {
+                  setState(() {
+                    _isLoading = true;
+                    _isEnabled = false;
+                  });
                   await Future.delayed(const Duration(seconds: 2));
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -41,6 +47,10 @@ class _LoginHomePageState extends State<LoginHomePage> {
                       ),
                     );
                   }
+                  setState(() {
+                    _isLoading = false;
+                    _isEnabled = true;
+                  });
                 },
               ),
               const SizedBox(height: AppSpacing.lg),

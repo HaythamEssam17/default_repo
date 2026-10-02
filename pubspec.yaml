@@ -68,10 +68,10 @@ l10n:
   output-localization-file: app_localizations.dart
 
 flutter_native_splash:
-  color: "#F5F4F0"
-  image: assets/images/logo_white.png
+  color: "#FFFFFF"
+  image: assets/images/logo.png
   android_gravity: center
   ios_content_mode: scaleAspectFit
   android_12:
-    image: assets/images/logo_white.png
-    icon_background_color: "#F5F4F0"
+    image: assets/images/logo.png
+    icon_background_color: "#FFFFFF"

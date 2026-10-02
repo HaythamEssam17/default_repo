@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/core/factories/loading_factory.dart';
 import 'package:pharmacy/core/utils/painters/button_painter.dart';
 
 class CommonButton extends StatefulWidget {
@@ -113,54 +114,30 @@ class _CommonButtonState extends State<CommonButton>
               padding:
                   widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                switchInCurve: Curves.easeInOut,
-                switchOutCurve: Curves.easeInOut,
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SizeTransition(
-                      sizeFactor: animation,
-                      axis: Axis.horizontal,
-                      child: child,
-                    ),
-                  );
-                },
-                child: widget.isLoading
-                    ? SizedBox(
-                        key: const ValueKey('loading'),
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            widget.textColor ?? theme.colorScheme.onPrimary,
-                          ),
+              child: AnimatedCrossFade(
+                firstChild: Center(
+                  child: Text(
+                    widget.text,
+                    style:
+                        widget.textStyle ??
+                        theme.textTheme.bodyLarge?.copyWith(
+                          color:
+                              widget.textColor ?? theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
                         ),
-                      )
-                    : Row(
-                        key: const ValueKey('content'),
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.icon != null) ...[
-                            widget.icon!,
-                            const SizedBox(width: 8),
-                          ],
-                          Text(
-                            widget.text,
-                            style:
-                                widget.textStyle ??
-                                theme.textTheme.bodyLarge?.copyWith(
-                                  color:
-                                      widget.textColor ??
-                                      theme.colorScheme.onPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
-                      ),
+                  ),
+                ),
+                secondChild: Center(
+                  child: PlatformLoading.buildLoading(
+                    context: context,
+                    color: Colors.white,
+                  ),
+                ),
+                alignment: AlignmentDirectional.center,
+                crossFadeState: widget.isLoading
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 250),
               ),
             ),
           ),

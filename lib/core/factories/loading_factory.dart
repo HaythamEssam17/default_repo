@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmacy/core/theme/app_spacing.dart';
 
 abstract class LoadingFactory {
-  Widget buildLoading({required BuildContext context});
+  Widget buildLoading({required BuildContext context, Color? color});
 
   factory LoadingFactory(TargetPlatform platform) {
     switch (platform) {
@@ -20,29 +20,31 @@ abstract class LoadingFactory {
 
 class AndroidLoading implements LoadingFactory {
   @override
-  Widget buildLoading({required BuildContext context}) {
+  Widget buildLoading({required BuildContext context, Color? color}) {
     return CircularProgressIndicator.adaptive(
       backgroundColor: Theme.of(context).hoverColor,
-      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+      valueColor: AlwaysStoppedAnimation<Color>(
+        color ?? Theme.of(context).primaryColor,
+      ),
     );
   }
 }
 
 class IOSLoading implements LoadingFactory {
   @override
-  Widget buildLoading({required BuildContext context}) {
+  Widget buildLoading({required BuildContext context, Color? color}) {
     return CupertinoActivityIndicator.partiallyRevealed(
       radius: AppSpacing.radiusMd,
-      color: Theme.of(context).primaryColor,
+      color: color ?? Theme.of(context).primaryColor,
     );
   }
 }
 
 /// Use This in UI
 class PlatformLoading {
-  static Widget buildLoading({required BuildContext context}) {
+  static Widget buildLoading({required BuildContext context, Color? color}) {
     return LoadingFactory(
       Theme.of(context).platform,
-    ).buildLoading(context: context);
+    ).buildLoading(context: context, color: color);
   }
 }
